@@ -1,8 +1,8 @@
-app-id: com.symless.synergy
+app-id: com.keywin.app
 runtime: org.kde.Platform
 runtime-version: "6.9"
 sdk: org.kde.Sdk
-command: synergy
+command: keywin
 finish-args:
   - --share=ipc
   - --socket=wayland

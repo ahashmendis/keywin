@@ -1,0 +1,12 @@
+section: screens
+	keywin-server:
+		resolution = 1920x1080
+	keywin-client:
+		resolution = 1920x1080
+section: links
+	keywin-server:
+		right = keywin-client
+	keywin-client:
+		left = keywin-server
+section: options
+	clipboardSharing = true
