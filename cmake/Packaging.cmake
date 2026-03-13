@@ -131,12 +131,12 @@ macro(configure_linux_packaging)
   install(
     FILES ${PROJECT_SOURCE_DIR}/res/dist/linux/com.symless.synergy.desktop
     DESTINATION share/applications
-    RENAME com.symless.synergy.desktop)
+    RENAME com.keywin.app.desktop)
 
   install(
     FILES ${DESKFLOW_RES_DIR}/app.png
     DESTINATION share/icons/hicolor/512x512/apps/
-    RENAME com.symless.synergy.png)
+    RENAME com.keywin.app.png)
 
   # Prepare PKGBUILD for Arch Linux
   configure_file(${PROJECT_SOURCE_DIR}/res/dist/arch/PKGBUILD.in

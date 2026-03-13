@@ -48,31 +48,31 @@ endmacro()
 macro(configure_meta)
 
   set(DESKFLOW_APP_ID
-      "deskflow"
+      "keywin"
       CACHE STRING "ID of the app for filenames, etc")
 
   set(DESKFLOW_DOMAIN
-      "deskflow.org"
+      "keywin.app"
       CACHE STRING "Domain of the app maintainer (not a URL)")
 
   set(DESKFLOW_APP_NAME
-      "Deskflow"
+      "KeyWin"
       CACHE STRING "App name (used in GUI title bar, etc)")
 
   set(DESKFLOW_AUTHOR_NAME
-      "Deskflow"
+      "KeyWin"
       CACHE STRING "Author name (also used as organization name)")
 
   set(DESKFLOW_MAINTAINER
-      "Deskflow <maintainers@deskflow.org>"
+      "KeyWin <maintainers@keywin.app>"
       CACHE STRING "Maintainer email address in RFC 5322 mailbox format")
 
   set(DESKFLOW_WEBSITE_URL
-      "https://deskflow.org"
+      "https://github.com/ahashmendis/keywin"
       CACHE STRING "URL of the app website")
 
   set(DESKFLOW_VERSION_URL
-      "https://api.deskflow.org/version"
+      "https://github.com/ahashmendis/keywin/releases"
       CACHE STRING "URL to get the latest version")
 
   set(DESKFLOW_HELP_TEXT
@@ -128,27 +128,27 @@ endmacro()
 macro(configure_bin_names)
 
   set(GUI_BINARY_NAME
-      "deskflow"
+      "keywin"
       CACHE STRING "Filename of the GUI binary")
 
   set(SERVER_BINARY_NAME
-      "deskflow-server"
+      "keywin-server"
       CACHE STRING "Filename of the server binary")
 
   set(CLIENT_BINARY_NAME
-      "deskflow-client"
+      "keywin-client"
       CACHE STRING "Filename of the client binary")
 
   set(CORE_BINARY_NAME
-      "deskflow-core"
+      "keywin-core"
       CACHE STRING "Filename of the core binary")
 
   set(DAEMON_BINARY_NAME
-      "deskflow-daemon"
+      "keywin-daemon"
       CACHE STRING "Filename of the daemon binary")
 
   set(LEGACY_BINARY_NAME
-      "deskflow-legacy"
+      "keywin-legacy"
       CACHE STRING "Filename of the legacy binary")
 
   message(VERBOSE "GUI binary: ${GUI_BINARY_NAME}")
