@@ -26,12 +26,12 @@ from dotenv import load_dotenv  # type: ignore
 from lib import env
 
 ENV_FILE = ".env"
-DEFAULT_PRODUCT_NAME = "Synergy"
-DEFAULT_FILENAME_BASE = "synergy"
+DEFAULT_PRODUCT_NAME = "KeyWin"
+DEFAULT_FILENAME_BASE = "keywin"
 DEFAULT_PROJECT_BUILD_DIR = "build"
 DEFAULT_DIST_DIR = "dist"
-DEFAULT_TEST_CMD = "synergy-server --version"
-DEFAULT_PACKAGE_NAME = "synergy"
+DEFAULT_TEST_CMD = "keywin-server --version"
+DEFAULT_PACKAGE_NAME = "keywin"
 
 
 def main():
@@ -46,8 +46,8 @@ def main():
     load_dotenv(dotenv_path=ENV_FILE)
 
     package(
-        env.get_env("SYNERGY_PACKAGE_PREFIX", default=DEFAULT_FILENAME_BASE),
-        env.get_env("SYNERGY_VERSION", required=True),
+        env.get_env("KEYWIN_PACKAGE_PREFIX", default=DEFAULT_FILENAME_BASE),
+        env.get_env("KEYWIN_VERSION", required=True),
         DEFAULT_PROJECT_BUILD_DIR,
         DEFAULT_DIST_DIR,
         DEFAULT_TEST_CMD,
