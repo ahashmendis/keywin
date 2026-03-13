@@ -631,7 +631,7 @@ void MainWindow::createMenuBar()
 
   m_pActionAbout->setText(QString("About %1...").arg(kAppName));
 
-  const auto enableTestMenu = strToTrue(qEnvironmentVariable("SYNERGY_TEST_MENU"));
+  const auto enableTestMenu = strToTrue(qEnvironmentVariable("KEYWIN_TEST_MENU"));
 
   if (enableTestMenu || kDebugBuild) {
     auto testMenu = new QMenu("Test", m_pMenuBar);
@@ -1133,7 +1133,7 @@ void MainWindow::checkForUpdates()
     return;
   }
 
-  const QString fakeVersion = qEnvironmentVariable("SYNERGY_FAKE_REMOTE_VERSION");
+  const QString fakeVersion = qEnvironmentVariable("KEYWIN_FAKE_REMOTE_VERSION");
   if (!fakeVersion.isEmpty()) {
     m_VersionChecker.fakeCheck(fakeVersion);
   } else {

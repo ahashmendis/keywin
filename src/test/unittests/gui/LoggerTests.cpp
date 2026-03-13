@@ -31,14 +31,14 @@ TEST(LoggerTests, handleMessage_withDebugEnvVarOn_emitsNewLine)
       &logger, &Logger::newLine, //
       [&newLineEmitted](const QString &line) { newLineEmitted = line.toStdString(); }
   );
-  qputenv("SYNERGY_GUI_DEBUG", "true");
+  qputenv("KEYWIN_GUI_DEBUG", "true");
   logger.loadEnvVars();
 
   logger.handleMessage(QtDebugMsg, "stub", "test");
 
   EXPECT_THAT(newLineEmitted, HasSubstr("test"));
 
-  qputenv("SYNERGY_GUI_DEBUG", "");
+  qputenv("KEYWIN_GUI_DEBUG", "");
 }
 
 TEST(LoggerTests, handleMessage_withDebugEnvVarOff_doesNotEmitNewLine)
@@ -49,12 +49,12 @@ TEST(LoggerTests, handleMessage_withDebugEnvVarOff_doesNotEmitNewLine)
       &logger, &Logger::newLine, //
       [&newLineEmitted](const QString &line) { newLineEmitted = true; }
   );
-  qputenv("SYNERGY_GUI_DEBUG", "false");
+  qputenv("KEYWIN_GUI_DEBUG", "false");
   logger.loadEnvVars();
 
   logger.handleMessage(QtDebugMsg, "stub", "test");
 
   EXPECT_FALSE(newLineEmitted);
 
-  qputenv("SYNERGY_GUI_DEBUG", "");
+  qputenv("KEYWIN_GUI_DEBUG", "");
 }

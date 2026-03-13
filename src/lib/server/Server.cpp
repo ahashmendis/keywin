@@ -1758,7 +1758,7 @@ void Server::sendDragInfo(BaseClientProxy *newScreen)
 void Server::onMouseMoveSecondary(SInt32 dx, SInt32 dy)
 {
   LOG((CLOG_DEBUG2 "onMouseMoveSecondary initial %+d,%+d", dx, dy));
-  const char *envVal = std::getenv("SYNERGY_MOUSE_ADJUSTMENT");
+  const char *envVal = std::getenv("KEYWIN_MOUSE_ADJUSTMENT");
   if (envVal != nullptr) {
     try {
       double multiplier = std::stod(envVal);                                // Convert to double
@@ -1772,7 +1772,7 @@ void Server::onMouseMoveSecondary(SInt32 dx, SInt32 dy)
       LOG((CLOG_ERR "Invalid DESKFLOW_MOUSE_ADJUSTMENT value: %s. Exception: %s", envVal, e.what()));
     }
   } else {
-    LOG((CLOG_DEBUG1 "SYNERGY_MOUSE_ADJUSTMENT not set, using original values %+d,%+d", dx, dy));
+    LOG((CLOG_DEBUG1 "KEYWIN_MOUSE_ADJUSTMENT not set, using original values %+d,%+d", dx, dy));
   }
 
   // mouse move on secondary (client's) screen

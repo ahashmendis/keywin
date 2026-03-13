@@ -28,7 +28,9 @@
         "CMAKE_TOOLCHAIN_FILE": "$env{VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake",
         "VCPKG_TARGET_TRIPLET": "x64-windows-release",
         "VCPKG_BUILD_TYPE": "release",
-        "QT_PATH": "$env{QT_PATH}"
+        "QT_PATH": "$env{QT_PATH}",
+        "SYNERGY_PRODUCT_NAME": "KeyWin",
+        "SYNERGY_VERSION_CHECK": "FALSE"
       },
       "architecture": {
         "value": "x64",
