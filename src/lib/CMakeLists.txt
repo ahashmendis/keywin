@@ -24,4 +24,7 @@ add_subdirectory(mt)
 add_subdirectory(net)
 add_subdirectory(platform)
 add_subdirectory(server)
-add_subdirectory(gui)
+
+if(BUILD_GUI)
+	add_subdirectory(gui)
+endif()

@@ -56,47 +56,47 @@ macro(configure_meta)
 
   set(DESKFLOW_APP_ID
       "keywin"
-      CACHE STRING "ID of the app for filenames, etc")
+      CACHE STRING "ID of the app for filenames, etc" FORCE)
 
   set(DESKFLOW_DOMAIN
       "keywin.app"
-      CACHE STRING "Domain of the app maintainer (not a URL)")
+      CACHE STRING "Domain of the app maintainer (not a URL)" FORCE)
 
   set(DESKFLOW_APP_NAME
       "KeyWin"
-      CACHE STRING "App name (used in GUI title bar, etc)")
+      CACHE STRING "App name (used in GUI title bar, etc)" FORCE)
 
   set(DESKFLOW_AUTHOR_NAME
       "KeyWin"
-      CACHE STRING "Author name (also used as organization name)")
+      CACHE STRING "Author name (also used as organization name)" FORCE)
 
   set(DESKFLOW_MAINTAINER
       "KeyWin <maintainers@keywin.app>"
-      CACHE STRING "Maintainer email address in RFC 5322 mailbox format")
+      CACHE STRING "Maintainer email address in RFC 5322 mailbox format" FORCE)
 
   set(DESKFLOW_WEBSITE_URL
       "https://github.com/ahashmendis/keywin"
-      CACHE STRING "URL of the app website")
+      CACHE STRING "URL of the app website" FORCE)
 
   set(DESKFLOW_VERSION_URL
       "https://github.com/ahashmendis/keywin/releases"
-      CACHE STRING "URL to get the latest version")
+      CACHE STRING "URL to get the latest version" FORCE)
 
   set(DESKFLOW_HELP_TEXT
       "Report a bug"
-      CACHE STRING "Text label for the help menu item")
+      CACHE STRING "Text label for the help menu item" FORCE)
 
   set(DESKFLOW_RES_DIR
       "${PROJECT_SOURCE_DIR}/res"
-      CACHE STRING "Resource directory for images, etc")
+      CACHE STRING "Resource directory for images, etc" FORCE)
 
   set(DESKFLOW_MAC_BUNDLE_CODE
       "DFLW"
-      CACHE STRING "Mac bundle code (4 characters)")
+      CACHE STRING "Mac bundle code (4 characters)" FORCE)
 
   set(DESKFLOW_SHOW_DEV_THANKS
       true
-      CACHE BOOL "Show developer thanks message")
+      CACHE BOOL "Show developer thanks message" FORCE)
 
   message(VERBOSE "App ID: ${DESKFLOW_APP_ID}")
   message(VERBOSE "App domain: ${DESKFLOW_DOMAIN}")
@@ -136,27 +136,27 @@ macro(configure_bin_names)
 
   set(GUI_BINARY_NAME
       "keywin"
-      CACHE STRING "Filename of the GUI binary")
+      CACHE STRING "Filename of the GUI binary" FORCE)
 
   set(SERVER_BINARY_NAME
       "keywin-server"
-      CACHE STRING "Filename of the server binary")
+      CACHE STRING "Filename of the server binary" FORCE)
 
   set(CLIENT_BINARY_NAME
       "keywin-client"
-      CACHE STRING "Filename of the client binary")
+      CACHE STRING "Filename of the client binary" FORCE)
 
   set(CORE_BINARY_NAME
       "keywin-core"
-      CACHE STRING "Filename of the core binary")
+      CACHE STRING "Filename of the core binary" FORCE)
 
   set(DAEMON_BINARY_NAME
       "keywin-daemon"
-      CACHE STRING "Filename of the daemon binary")
+      CACHE STRING "Filename of the daemon binary" FORCE)
 
   set(LEGACY_BINARY_NAME
       "keywin-legacy"
-      CACHE STRING "Filename of the legacy binary")
+      CACHE STRING "Filename of the legacy binary" FORCE)
 
   message(VERBOSE "GUI binary: ${GUI_BINARY_NAME}")
   message(VERBOSE "Server binary: ${SERVER_BINARY_NAME}")

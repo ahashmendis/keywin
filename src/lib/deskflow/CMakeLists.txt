@@ -23,6 +23,11 @@ if(WIN32)
   file(GLOB arch_headers "win32/*.h")
   file(GLOB arch_sources "win32/*.cpp")
 
+  if(NOT BUILD_GUI)
+    list(FILTER arch_headers EXCLUDE REGEX "[/\\]Daemon.*\\.h$")
+    list(FILTER arch_sources EXCLUDE REGEX "[/\\]Daemon.*\\.cpp$")
+  endif()
+
   if(HAVE_WINTOAST)
     list(APPEND arch_sources ${WINTOAST_DIR}/src/wintoastlib.cpp)
   endif()
@@ -42,8 +47,9 @@ endif()
 add_library(${lib_name} STATIC ${sources})
 
 if(WIN32)
-
-  target_link_libraries(${lib_name} PRIVATE Qt6::Core Qt6::Network)
+  if(BUILD_GUI)
+    target_link_libraries(${lib_name} PRIVATE Qt6::Core Qt6::Network)
+  endif()
 
 elseif(UNIX)
 

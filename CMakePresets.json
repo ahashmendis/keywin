@@ -13,7 +13,8 @@
       "name": "minimal",
       "hidden": true,
       "environment": {
-        "SYNERGY_BUILD_MINIMAL": "ON"
+        "SYNERGY_BUILD_MINIMAL": "ON",
+        "DESKFLOW_BUILD_MINIMAL": "true"
       }
     },
     {
@@ -25,6 +26,8 @@
         "CMAKE_C_COMPILER": "cl.exe",
         "CMAKE_CXX_COMPILER": "cl.exe",
         "CMAKE_TOOLCHAIN_FILE": "$env{VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake",
+        "VCPKG_TARGET_TRIPLET": "x64-windows-release",
+        "VCPKG_BUILD_TYPE": "release",
         "QT_PATH": "$env{QT_PATH}"
       },
       "architecture": {
