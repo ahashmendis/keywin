@@ -45,5 +45,7 @@ configure_build()
 configure_libs()
 configure_packaging()
 
-add_subdirectory(${SYNERGY_EXTRA_ROOT})
+# Note: We DO NOT add_subdirectory(${SYNERGY_EXTRA_ROOT}) because KeyWin
+# is a rebranding of synergy with its own src structure. The synergy-extra
+# cmake modules are included above for configuration, but we build from KeyWin's src tree.
 add_subdirectory(src)

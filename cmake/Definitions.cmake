@@ -19,6 +19,13 @@ macro(configure_definitions)
   configure_meta()
   configure_ninja()
   configure_options()
+  
+  # Configure C++ standard library for the compiler
+  if(APPLE)
+    # Use fPIC for Position Independent Code on macOS
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fPIC")
+    # Link with C++ standard library - let clang handle the default
+  endif()
 
   set(INTEG_TESTS_BIN integtests)
   set(UNIT_TESTS_BIN unittests)

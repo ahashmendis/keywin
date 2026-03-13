@@ -126,11 +126,17 @@ macro(configure_unix_libs)
   check_type_size(short SIZEOF_SHORT)
 
   # pthread is used on both Linux and Mac
-  check_library_exists("pthread" pthread_create "" HAVE_PTHREAD)
-  if(HAVE_PTHREAD)
-    list(APPEND libs pthread)
+  # On modern macOS, pthread is part of the C library and doesn't need explicit linking
+  if(NOT APPLE)
+    check_library_exists("pthread" pthread_create "" HAVE_PTHREAD)
+    if(HAVE_PTHREAD)
+      list(APPEND libs pthread)
+    else()
+      message(FATAL_ERROR "Missing library: pthread")
+    endif()
   else()
-    message(FATAL_ERROR "Missing library: pthread")
+    # On Apple platforms, pthread is always available and built-in
+    set(HAVE_PTHREAD 1)
   endif()
 
   if(APPLE)
