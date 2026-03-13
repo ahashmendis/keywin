@@ -35,3 +35,11 @@ Please validate builds for your target platform and use case.
 
 ### Why this repository?
 This repository is the active home for KeyWin development.
+
+## License And Attribution
+
+KeyWin is maintained by Nescape and contributors.
+
+This repository includes upstream-derived source code from Synergy/Deskflow
+projects and their contributors. Licensing for upstream-derived code remains
+GNU GPL v2 as documented in [LICENSE](LICENSE).

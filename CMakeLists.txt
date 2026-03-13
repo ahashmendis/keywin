@@ -1,4 +1,4 @@
-# Deskflow -- mouse and keyboard sharing utility
+# KeyWin -- mouse and keyboard sharing utility
 # Copyright (C) 2024 - 2025 Symless Ltd.
 #
 # This package is free software; you can redistribute it and/or
