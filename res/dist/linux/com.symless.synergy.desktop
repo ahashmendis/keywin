@@ -1,0 +1,10 @@
+[Desktop Entry]
+Type=Application
+Version=1.0
+Name=KeyWin
+Comment=Mouse and keyboard sharing utility
+Exec=keywin
+Icon=com.keywin.app
+Terminal=false
+Categories=Utility;
+Keywords=keyboard;mouse;sharing;network;share;
