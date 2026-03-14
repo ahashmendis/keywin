@@ -1,6 +1,14 @@
 {
   "dependencies": [
     {
+      "name": "qtbase",
+      "default-features": false,
+      "features": [
+        "network",
+        "widgets"
+      ]
+    },
+    {
       "name": "openssl",
       "features": [
         "tools"

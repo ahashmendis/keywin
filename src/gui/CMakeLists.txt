@@ -48,6 +48,18 @@ include_directories(${PROJECT_BINARY_DIR}/config)
 
 add_executable(${target} WIN32 MACOSX_BUNDLE ${sources} ${ui_files} ${rc_files} ${qrc_file})
 
+if(WIN32)
+  # Ensure DirectX import libs (d3d11/d3d12/dxgi/dxguid) are discoverable for MSVC+Ninja builds.
+  file(TO_CMAKE_PATH "$ENV{WindowsSdkDir}" _windows_sdk_dir)
+  file(TO_CMAKE_PATH "$ENV{WindowsSDKLibVersion}" _windows_sdk_lib_version)
+  if(_windows_sdk_dir AND _windows_sdk_lib_version)
+    set(_windows_sdk_um_lib_dir "${_windows_sdk_dir}/Lib/${_windows_sdk_lib_version}/um/x64")
+    if(EXISTS "${_windows_sdk_um_lib_dir}")
+      target_link_directories(${target} PRIVATE "${_windows_sdk_um_lib_dir}")
+    endif()
+  endif()
+endif()
+
 target_link_libraries(
   ${target}
   ${DESKFLOW_GUI_HOOK_LIB}
@@ -114,7 +126,6 @@ elseif(WIN32)
   get_target_property(WINDEPLOYQT_EXE Qt6::windeployqt IMPORTED_LOCATION)
   add_custom_command(TARGET ${GUI_BINARY_NAME} POST_BUILD
     COMMAND ${WINDEPLOYQT_EXE}
-      --force-openssl
       --no-compiler-runtime
       --no-system-d3d-compiler
       --no-opengl-sw

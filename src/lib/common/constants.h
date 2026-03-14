@@ -22,7 +22,12 @@ const auto kAppId = DESKFLOW_APP_ID;
 const auto kAppName = DESKFLOW_APP_NAME;
 const auto kAppDescription = "Mouse and keyboard sharing utility";
 const auto kDaemonBinName = DESKFLOW_APP_ID "-daemon";
+#ifdef _WIN32
+// Keep IPC endpoint strictly alnum+underscore for QLocal(Socket|Server) compatibility.
+const auto kDaemonIpcName = "keywin_daemon_ipc";
+#else
 const auto kDaemonIpcName = DESKFLOW_APP_ID "-daemon";
+#endif
 const auto kDaemonLogFilename = DESKFLOW_APP_ID "-daemon.log";
 
 #ifndef NDEBUG
