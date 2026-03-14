@@ -76,7 +76,7 @@ if(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
 
   set_target_properties(${target} PROPERTIES
     INSTALL_RPATH "@loader_path/../Libraries;@loader_path/../Frameworks"
-    MACOSX_BUNDLE_INFO_PLIST "${CMAKE_BINARY_DIR}/bundle/Synergy.app/Contents/Info.plist"
+    MACOSX_BUNDLE_INFO_PLIST "${CMAKE_BINARY_DIR}/bundle/${DESKFLOW_APP_NAME}.app/Contents/Info.plist"
   )
 
   install(TARGETS ${target} BUNDLE DESTINATION ${CMAKE_BINARY_DIR}/bundle)
