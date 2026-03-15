@@ -47,7 +47,18 @@ void ClientConnection::handleLogLine(const QString &logLine)
       return;
     }
 
-    m_showMessage = false;
+    // Only show error for actual TLS/cert failures, not for "server not responding"
+    if (logLine.contains("fingerprint") || logLine.contains("certificate")) {
+      m_showMessage = false;
+      showMessage(logLine);
+    } else if (logLine.contains("not responding") || logLine.contains("Timed out")) {
+      // Server is unreachable - this is normal during retries, don't show dialog
+      qDebug("server unreachable, not showing error dialog (will retry automatically)");
+      return;
+    } else {
+      m_showMessage = false;
+      showMessage(logLine);
+    }
 
     // ignore the message if it's about the server refusing by name as
     // this will trigger the server to show an 'add client' dialog.
@@ -55,8 +66,6 @@ void ClientConnection::handleLogLine(const QString &logLine)
       qDebug("ignoring client name refused message");
       return;
     }
-
-    showMessage(logLine);
   } else if (logLine.contains("connected to server")) {
     m_showMessage = false;
   }
