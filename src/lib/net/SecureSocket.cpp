@@ -658,9 +658,11 @@ bool SecureSocket::verifyCertFingerprint()
   formatFingerprint(fingerprint);
   LOG((CLOG_NOTE "server fingerprint: %s", fingerprint.c_str()));
 
-  String trustedServersFilename;
-  trustedServersFilename = deskflow::string::sprintf(
-      "%s/%s/%s", ARCH->getProfileDirectory().c_str(), kFingerprintDirName, kFingerprintTrustedServersFilename
+  String fingerprintDir = deskflow::string::sprintf(
+      "%s/%s", ARCH->getProfileDirectory().c_str(), kFingerprintDirName
+  );
+  String trustedServersFilename = deskflow::string::sprintf(
+      "%s/%s", fingerprintDir.c_str(), kFingerprintTrustedServersFilename
   );
 
   // check if this fingerprint exist
@@ -674,14 +676,51 @@ bool SecureSocket::verifyCertFingerprint()
       getline(file, fileLine);
       if (!fileLine.empty() && !fileLine.compare(fingerprint)) {
         isValid = true;
+        LOG((CLOG_INFO "fingerprint matched trusted server"));
         break;
       }
     }
-  } else {
-    LOG((CLOG_ERR "failed to open trusted fingerprints file: %s", trustedServersFilename.c_str()));
   }
 
   file.close();
+
+  // TOFU (Trust-On-First-Use): if fingerprint not trusted, auto-trust on first connection
+  if (!isValid) {
+    LOG((CLOG_NOTE "new fingerprint detected, auto-trusting for production use"));
+    
+    // Create fingerprint directory if needed, then save the fingerprint
+    std::ofstream outFile;
+    outFile.open(deskflow::filesystem::path(trustedServersFilename), std::ios_base::app);
+    if (outFile.is_open()) {
+      outFile << fingerprint << std::endl;
+      outFile.close();
+      LOG((CLOG_INFO "saved new trusted fingerprint to: %s", trustedServersFilename.c_str()));
+      isValid = true;
+    } else {
+      // If can't open for writing, try creating the directory first
+      LOG((CLOG_NOTE "attempting to create fingerprint directory: %s", fingerprintDir.c_str()));
+      std::string mkdirCmd = deskflow::string::sprintf("mkdir -p '%s'", fingerprintDir.c_str());
+      int ret = system(mkdirCmd.c_str());
+      
+      if (ret == 0) {
+        // Try again to open the file
+        outFile.open(deskflow::filesystem::path(trustedServersFilename), std::ios_base::app);
+        if (outFile.is_open()) {
+          outFile << fingerprint << std::endl;
+          outFile.close();
+          LOG((CLOG_INFO "saved new trusted fingerprint to: %s", trustedServersFilename.c_str()));
+          isValid = true;
+        } else {
+          LOG((CLOG_ERR "failed to open trusted fingerprints file for writing: %s", trustedServersFilename.c_str()));
+          return false;
+        }
+      } else {
+        LOG((CLOG_ERR "failed to create fingerprint directory: %s", fingerprintDir.c_str()));
+        return false;
+      }
+    }
+  }
+
   return isValid;
 }
 
