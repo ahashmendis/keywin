@@ -15,8 +15,8 @@
 
 namespace deskflow::gui::ipc {
 
-const auto kTimeout = 1000;
-const auto kRetryLimit = 3;
+const auto kTimeout = 3000;
+const auto kRetryLimit = 5;
 
 DaemonIpcClient::DaemonIpcClient(QObject *parent)
     : QObject(parent),
@@ -54,7 +54,10 @@ bool DaemonIpcClient::connectToServer()
     m_socket->connectToServer(kDaemonIpcName);
 
     if (!m_socket->waitForConnected(kTimeout)) {
-      qWarning() << "daemon ipc client failed to connect";
+      qWarning() << "daemon ipc client failed to connect to endpoint"
+                 << kDaemonIpcName
+                 << "fullServerName=" << m_socket->fullServerName()
+                 << "error=" << m_socket->errorString();
       disconnectFromServer();
       continue;
     }
@@ -106,7 +109,10 @@ void DaemonIpcClient::handleDisconnected()
 
 void DaemonIpcClient::handleErrorOccurred()
 {
-  qWarning() << "daemon ipc client error:" << m_socket->errorString();
+  qWarning() << "daemon ipc client error on endpoint"
+             << kDaemonIpcName
+             << "fullServerName=" << m_socket->fullServerName()
+             << "error=" << m_socket->errorString();
   disconnectFromServer();
 
   if (m_state == State::Connected) {

@@ -23,7 +23,7 @@ const auto kAppName = DESKFLOW_APP_NAME;
 const auto kAppDescription = "Mouse and keyboard sharing utility";
 const auto kDaemonBinName = DESKFLOW_APP_ID "-daemon";
 #ifdef _WIN32
-// Keep IPC endpoint strictly alnum+underscore for QLocal(Socket|Server) compatibility.
+// Keep IPC endpoint strictly alnum+underscore for QLocal(Socket|Server) compatibility on Windows.
 const auto kDaemonIpcName = "keywin_daemon_ipc";
 #else
 const auto kDaemonIpcName = DESKFLOW_APP_ID "-daemon";

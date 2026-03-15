@@ -39,8 +39,13 @@ if exist build\CMakeCache.txt del /f /q build\CMakeCache.txt
 "C:\Program Files\CMake\bin\cmake.exe" -S . -B build --preset %PRESET% -DCMAKE_C_COMPILER="%MSVC_TOOLS_DIR%\bin\Hostx64\x64\cl.exe" -DCMAKE_CXX_COMPILER="%MSVC_TOOLS_DIR%\bin\Hostx64\x64\cl.exe" -DVCPKG_TARGET_TRIPLET=x64-windows-release -DVCPKG_HOST_TRIPLET=x64-windows-release -DVCPKG_BUILD_TYPE=release -DCMAKE_TOOLCHAIN_FILE=D:/keywin-tools/vcpkg/scripts/buildsystems/vcpkg.cmake -DCMAKE_MAKE_PROGRAM="%LOCALAPPDATA%\Microsoft\WinGet\Packages\Ninja-build.Ninja_Microsoft.Winget.Source_8wekyb3d8bbwe\ninja.exe"
 if errorlevel 1 exit /b 1
 
-"C:\Program Files\CMake\bin\cmake.exe" --build build --config Release
-if errorlevel 1 exit /b 1
+if /I "%BUILD_MODE%"=="GUI" (
+  "C:\Program Files\CMake\bin\cmake.exe" --build build --config Release --target keywin keywin-daemon keywin-server keywin-client
+  if errorlevel 1 exit /b 1
+) else (
+  "C:\Program Files\CMake\bin\cmake.exe" --build build --config Release
+  if errorlevel 1 exit /b 1
+)
 
 if /I "%BUILD_MODE%"=="GUI" (
   if exist build\bin\keywin.exe (

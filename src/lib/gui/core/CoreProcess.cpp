@@ -26,6 +26,7 @@
 #include <QFile>
 #include <QMessageBox>
 #include <QMutexLocker>
+#include <QProcess>
 #include <QRegularExpression>
 #include <QStandardPaths>
 #include <QTimer>
@@ -803,7 +804,33 @@ void CoreProcess::retryDaemon()
 {
   if (m_daemonIpcClient->connectToServer()) {
     qInfo("successfully reconnected to daemon");
+    return;
   }
+
+#if defined(Q_OS_WIN)
+  if (m_appConfig.processMode() == ProcessMode::kService) {
+    const auto daemonPath = m_pDeps->appPath(kDaemonBinName);
+    if (!m_pDeps->fileExists(daemonPath)) {
+      qWarning() << "cannot relaunch daemon, binary missing:" << daemonPath;
+      return;
+    }
+
+    qWarning() << "daemon offline, attempting relaunch:" << daemonPath;
+    if (!QProcess::startDetached(daemonPath, {"--foreground"})) {
+      qWarning() << "daemon relaunch failed";
+      return;
+    }
+
+    // Give daemon a short moment to bring up the IPC endpoint, then retry.
+    QTimer::singleShot(1500, this, [this]() {
+      if (m_daemonIpcClient->connectToServer()) {
+        qInfo("successfully reconnected to relaunched daemon");
+      } else {
+        qWarning("failed to reconnect to daemon after relaunch");
+      }
+    });
+  }
+#endif
 }
 
 } // namespace deskflow::gui

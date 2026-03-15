@@ -362,11 +362,33 @@ void SecureClientSocket::checkResult(int status, int &retry)
       if (status == 0) {
         LOG((CLOG_ERR "eof violates tls protocol"));
       } else if (status == -1) {
-        // underlying socket I/O reproted an error
+        // underlying socket I/O reported an error, but on Windows this often
+        // just means the socket is not ready. Only treat as fatal if there's
+        // evidence of a real error.
+        bool isRealError = false;
         try {
           ARCH->throwErrorOnSocket(getSocket());
         } catch (const XArchNetwork &e) {
-          LOG((CLOG_ERR "%s", e.what()));
+          LOG((CLOG_DEBUG "socket error: %s", e.what()));
+          isRealError = true;
+        }
+        
+        if (!isRealError) {
+          // Transient condition; treat like other retry codes
+          const std::set<int> retryCodes{
+              SSL_ERROR_WANT_READ, SSL_ERROR_WANT_WRITE, SSL_ERROR_WANT_CONNECT, SSL_ERROR_WANT_ACCEPT
+          };
+          if (errorCode == SSL_ERROR_NONE || isFatal()) {
+            retry = 0;
+          } else if (retryCodes.find(errorCode) != retryCodes.end() || !isRealError) {
+            ++retry;
+            LOG((CLOG_DEBUG2 "ssl syscall not ready (retryable), attempt=%d", retry));
+          }
+          // Don't mark as fatal if it's just a transient socket condition
+          m_fatal = false;
+        } else {
+          // Real socket error, mark as fatal
+          m_fatal = true;
         }
       }
     }

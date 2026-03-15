@@ -37,7 +37,7 @@ void DaemonIpcServer::listen()
   connect(m_server, &QLocalServer::newConnection, this, &DaemonIpcServer::handleNewConnection);
   QLocalServer::removeServer(kDaemonIpcName);
   if (m_server->listen(kDaemonIpcName)) {
-    LOG_DEBUG("ipc server listening on: %s", kDaemonIpcName);
+    LOG_NOTE("ipc server listening on: %s", kDaemonIpcName);
   } else {
     LOG_ERR("ipc server failed to listen on: %s", kDaemonIpcName);
   }

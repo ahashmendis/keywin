@@ -560,21 +560,39 @@ void SecureSocket::checkResult(int status, int &retry)
     break;
 
   case SSL_ERROR_SYSCALL:
-    LOG((CLOG_ERR "tls error occurred (system call failure)"));
+    LOG((CLOG_DEBUG "tls error occurred (system call failure)"));
     if (ERR_peek_error() == 0) {
       if (status == 0) {
         LOG((CLOG_ERR "eof violates tls protocol"));
+        isFatal(true);
       } else if (status == -1) {
-        // underlying socket I/O reproted an error
+        // underlying socket I/O reported an error, but status == -1 with no
+        // OpenSSL error queue entry usually means the socket is not ready.
+        // Treat as retryable unless there's evidence of a real socket error.
+        bool isRealError = false;
         try {
           ARCH->throwErrorOnSocket(getSocket());
+          // If throwErrorOnSocket() returns normally, the socket is OK
         } catch (XArchNetwork &e) {
-          LOG((CLOG_ERR "%s", e.what()));
+          // Socket has a real error
+          LOG((CLOG_DEBUG "socket error: %s", e.what()));
+          isRealError = true;
+          isFatal(true);
         }
+        
+        if (!isRealError) {
+          // Transient condition; treat like SSL_ERROR_WANT_READ
+          retry++;
+          LOG((CLOG_DEBUG2 "ssl syscall not ready (retryable), attempt=%d", retry));
+        }
+      } else {
+        // status is not 0 or -1, unexpected condition
+        isFatal(true);
       }
+    } else {
+      // OpenSSL error queue has entries, this is fatal
+      isFatal(true);
     }
-
-    isFatal(true);
     break;
 
   case SSL_ERROR_SSL:
