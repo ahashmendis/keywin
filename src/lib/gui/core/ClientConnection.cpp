@@ -47,6 +47,13 @@ void ClientConnection::handleLogLine(const QString &logLine)
       return;
     }
 
+    // ignore the message if it's about the server refusing by name as
+    // this will trigger the server to show an 'add client' dialog.
+    if (logLine.contains("server refused client with our name")) {
+      qDebug("ignoring client name refused message");
+      return;
+    }
+
     // Only show error for actual TLS/cert failures, not for "server not responding"
     if (logLine.contains("fingerprint") || logLine.contains("certificate")) {
       m_showMessage = false;
@@ -58,13 +65,6 @@ void ClientConnection::handleLogLine(const QString &logLine)
     } else {
       m_showMessage = false;
       showMessage(logLine);
-    }
-
-    // ignore the message if it's about the server refusing by name as
-    // this will trigger the server to show an 'add client' dialog.
-    if (logLine.contains("server refused client with our name")) {
-      qDebug("ignoring client name refused message");
-      return;
     }
   } else if (logLine.contains("connected to server")) {
     m_showMessage = false;
