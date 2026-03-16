@@ -123,6 +123,9 @@ void ServerProxy::handleData(const Event &, void *)
     LOG((CLOG_DEBUG2 "msg from server: %c%c%c%c", code[0], code[1], code[2], code[3]));
     switch ((this->*m_parser)(code)) {
     case kOkay:
+      // Any valid server traffic proves liveness; don't require an explicit
+      // keepalive frame during handshake or option negotiation windows.
+      resetKeepAliveAlarm();
       break;
 
     case kUnknown:
