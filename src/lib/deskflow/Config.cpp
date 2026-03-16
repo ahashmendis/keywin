@@ -67,7 +67,7 @@ bool Config::load(const std::string &firstArg)
     LOG((CLOG_INFO "loading config file: %s", m_filename.c_str()));
     configTable = toml::parse_file(m_filename);
 
-  } catch (const toml::parse_error &err) {
+  } catch (const std::exception &err) {
     LOG((CLOG_ERR "toml parse error: %s", err.what()));
     throw ParseError();
   }
